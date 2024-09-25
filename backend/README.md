@@ -12,4 +12,4 @@ and run them
 ```
 $ docker run -p [ports]
 ```
-For now you can only see the root page. The rest will come later)
+For now you can only try the root point. The rest will come later :)
