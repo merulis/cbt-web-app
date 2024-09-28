@@ -1,35 +1,35 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-}
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
+body {
     display: flex;
-    place-items: center;
-  }
+    flex-direction: column;
+    background-color: white;
+}
 
-  #app {
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: var(--header-bg-color);
+    padding: 10px;
+    color: var(--header-text-light);
+    box-shadow: 0px 5px 5px #131313cb;
+}
+
+main {
+    height: 100vh;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+    grid-template-columns: 1fr 4fr 1fr;
+    row-gap: 10px;
+    align-items: start;
+    justify-content: center;
+    padding-top: none;
+}
+
+#main-content {
+    margin-top: 50px;
+    padding: 20px;
+    border-left: 2px var(--content-color) solid;
 }
