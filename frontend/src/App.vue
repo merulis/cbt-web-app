@@ -32,10 +32,5 @@ nav > a{
   margin-right: 5px;
   text-decoration: none;
 }
-a:hover {
-  padding: 10px;
-  border-radius: 10px;
-  color: var(--text-hover);
-  background-color:var(--hover);
-}
+
 </style>
