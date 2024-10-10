@@ -3,8 +3,17 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class ThoughtRecord(BaseModel):
+class ThoughtRecordDB(BaseModel):
     id: int
+    author: str
+    situation: str
+    auto_thought: str
+    cognitive_distortion_type: str
+    alternative_thought: str
+    create: datetime
+
+
+class ThoughtRecord(BaseModel):
     author: str
     situation: str
     auto_thought: str

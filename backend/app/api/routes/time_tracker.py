@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+from app.errors.db import Missing
 from app.models.time_tracker import ActivityRecord
 from app.service import time_tracker as service
 
@@ -6,6 +7,7 @@ from app.service import time_tracker as service
 router = APIRouter(prefix="/activity")
 
 
+@router.get("")
 @router.get("/")
 def get_all() -> list[ActivityRecord]:
     return service.get_all()
@@ -13,7 +15,10 @@ def get_all() -> list[ActivityRecord]:
 
 @router.get("/{id}")
 def get_one(id) -> ActivityRecord:
-    return service.get_one(id)
+    try:
+        return service.get_one(id)
+    except Missing as e:
+        raise HTTPException(status_code=404, detail=e.msg)
 
 
 @router.post("/")
@@ -23,14 +28,23 @@ def create(activity: ActivityRecord) -> ActivityRecord:
 
 @router.patch("/{id}")
 def modify(id: int, activity: ActivityRecord) -> ActivityRecord:
-    return service.modify(id, activity)
+    try:
+        return service.modify(id, activity)
+    except Missing as e:
+        raise HTTPException(status_code=404, detail=e.msg)
 
 
 @router.put("/{id}")
 def replace(id: int, activity: ActivityRecord) -> ActivityRecord:
-    return service.replace(id, activity)
+    try:
+        return service.replace(id, activity)
+    except Missing as e:
+        raise HTTPException(status_code=404, detail=e.msg)
 
 
 @router.delete("/{id}")
 def delete(id: int):
-    return service.delete(id)
+    try:
+        return service.delete(id)
+    except Missing as e:
+        raise HTTPException(status_code=404, detail=e.msg)

@@ -1,44 +1,26 @@
+from app.data import time_tracker as db
 from app.models.time_tracker import ActivityRecord
 
 
-activies: list[ActivityRecord] = []
-
-
 def get_all() -> list[ActivityRecord]:
-    return activies
+    return db.get_all()
 
 
-def get_one(id) -> ActivityRecord | None:
-    for record in activies:
-        if record.id == id:
-            return record
-    return None
+def get_one(id) -> ActivityRecord:
+    return db.get_one(id)
 
 
 def create(activity: ActivityRecord) -> ActivityRecord:
-    activies.append(activity)
-    return activity
+    return db.create(activity)
 
 
-def modify(id, activity: ActivityRecord) -> ActivityRecord:
-    for record in activies:
-        if record.id == id:
-            activies.remove(record)
-            activies.append(activity)
-    return activity
+def modify(id: int, activity: ActivityRecord) -> ActivityRecord:
+    return db.modify(id, activity)
 
 
-def replace(id, activity: ActivityRecord) -> ActivityRecord:
-    for record in activies:
-        if record.id == id:
-            activies.remove(record)
-            activies.append(activity)
-    return activity
+def replace(id: int, activity: ActivityRecord) -> ActivityRecord:
+    return db.replace(id, activity)
 
 
-def delete(id: int):
-    for record in activies:
-        if record.id == id:
-            activies.remove(record)
-            break
-    return None
+def delete(id: int) -> bool:
+    return db.delete(id)

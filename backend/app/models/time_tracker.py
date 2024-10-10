@@ -1,16 +1,23 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from pydantic import BaseModel
 
 
-class ActivityRecord(BaseModel):
+class ActivityRecordDB(BaseModel):
     id: int
     color: str
     type: str
-    interval: timedelta
+    interval: int
+    date: datetime
+
+
+class ActivityRecord(BaseModel):
+    color: str
+    type: str
+    interval: int
     date: datetime
 
 
 class ActivityStatistic(BaseModel):
     activies: list[ActivityRecord]
-    interval: timedelta
+    interval: int

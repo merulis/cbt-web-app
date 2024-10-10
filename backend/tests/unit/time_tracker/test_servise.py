@@ -1,24 +1,21 @@
-from datetime import datetime, timedelta
+"""
+import pytest
+
+from datetime import datetime
 
 from app.models.time_tracker import ActivityRecord
 from app.service import time_tracker as service
 
 
-record = ActivityRecord(
-    id=1,
-    color="green",
-    type="work",
-    interval=timedelta(days=1),
-    date=datetime.now()
-)
-
-record_modify = ActivityRecord(
-    id=1,
-    color="red",
-    type="work",
-    interval=timedelta(days=1),
-    date=datetime.now()
-)
+@pytest.fixture
+def sample() -> ActivityRecord:
+    return ActivityRecord(
+        id=1,
+        color="green",
+        type="work",
+        interval=86400,
+        date=datetime.now(),
+    )
 
 
 def test_create():
@@ -49,3 +46,4 @@ def test_replace():
 def test_delete():
     resp = service.delete(1)
     assert resp is None
+"""
