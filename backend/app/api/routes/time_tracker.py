@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.errors.db import Missing
-from app.models.time_tracker import ActivityRecord
+from app.models.time_tracker import ActivityRecord, NewActivityRecord
 from app.service import time_tracker as service
 
 
@@ -22,7 +22,7 @@ def get_one(id) -> ActivityRecord:
 
 
 @router.post("/")
-def create(activity: ActivityRecord) -> ActivityRecord:
+def create(activity: NewActivityRecord) -> NewActivityRecord:
     return service.create(activity)
 
 

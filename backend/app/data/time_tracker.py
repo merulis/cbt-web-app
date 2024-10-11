@@ -1,6 +1,6 @@
-from .init import curs
+from .main import curs
 from app.errors.db import Missing
-from app.models.time_tracker import ActivityRecord
+from app.models.time_tracker import ActivityRecord, NewActivityRecord
 
 
 curs.execute("""create table if not exists activies(
@@ -12,8 +12,14 @@ curs.execute("""create table if not exists activies(
 
 
 def row_to_model(row: tuple) -> ActivityRecord:
-    _, color, type, interval, date = row
-    return ActivityRecord(color=color, type=type, interval=interval, date=date)
+    id, color, type, interval, date = row
+    return ActivityRecord(
+        id=id,
+        color=color,
+        type=type,
+        interval=interval,
+        date=date
+    )
 
 
 def model_to_dict(model: ActivityRecord) -> dict:
@@ -38,7 +44,7 @@ def get_all() -> list[ActivityRecord]:
     return [row_to_model(row) for row in rows]
 
 
-def create(activity: ActivityRecord):
+def create(activity: NewActivityRecord) -> ActivityRecord:
     query = """insert into activies (color, type, interval, date)
             values (:color, :type, :interval, :date)"""
     params = model_to_dict(activity)
@@ -47,7 +53,7 @@ def create(activity: ActivityRecord):
     return get_one(id_)
 
 
-def modify(id: int, activity: ActivityRecord) -> ActivityRecord:
+def modify(id: int, activity: NewActivityRecord) -> ActivityRecord:
     query = """update activies
                 set color=:color,
                 type=:type,
@@ -63,7 +69,7 @@ def modify(id: int, activity: ActivityRecord) -> ActivityRecord:
         raise Missing(f"Activity {id} not found")
 
 
-def replace(id: int, activity: ActivityRecord) -> ActivityRecord:
+def replace(id: int, activity: NewActivityRecord) -> ActivityRecord:
     query = """update activies
                 set color=:color,
                 type=:type,

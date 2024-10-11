@@ -28,13 +28,13 @@ def test_create(sample):
 
 
 def test_get_one(sample):
-    resp = activity.get_one(1)
+    resp = activity.get_one(sample.id)
     assert resp == sample
 
 
-def test_get_one_missing():
+def test_get_one_missing(sample):
     with pytest.raises(Missing):
-        _ = activity.get_one(2)
+        _ = activity.get_one(sample.id + 1)
 
 
 def test_get_all(sample):
@@ -44,14 +44,14 @@ def test_get_all(sample):
 
 def test_modify(sample):
     sample.color = "red"
-    resp = activity.modify(1, sample)
+    resp = activity.modify(sample.id, sample)
     assert sample == resp
 
 
 def test_modify_missing(sample):
     sample.color = "red"
     with pytest.raises(Missing):
-        _ = activity.modify(2, sample)
+        _ = activity.modify(sample.id + 1, sample)
 
 
 def test_delete():
@@ -59,6 +59,6 @@ def test_delete():
     assert resp is True
 
 
-def test_delete_missing():
+def test_delete_missing(sample):
     with pytest.raises(Missing):
-        _ = activity.delete(2)
+        _ = activity.delete(sample.id + 1)

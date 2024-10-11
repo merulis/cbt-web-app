@@ -3,7 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class ActivityRecordDB(BaseModel):
+class ActivityRecord(BaseModel):
     id: int
     color: str
     type: str
@@ -11,7 +11,7 @@ class ActivityRecordDB(BaseModel):
     date: datetime
 
 
-class ActivityRecord(BaseModel):
+class NewActivityRecord(BaseModel):
     color: str
     type: str
     interval: int
