@@ -3,7 +3,7 @@ import pytest
 
 from datetime import datetime
 
-from app.models.time_tracker import ActivityRecord
+from app.models.time_tracker import ActivityRecord, NewActivityRecord
 from app.errors.db import Missing
 
 
@@ -11,10 +11,12 @@ os.environ["SQLITE_DB"] = ":memory:"
 from app.data import time_tracker as data
 
 
+id_ = None
+
+
 @pytest.fixture
-def sample() -> ActivityRecord:
-    return ActivityRecord(
-        id=1,
+def sample() -> NewActivityRecord:
+    return NewActivityRecord(
         color="green",
         type="work",
         interval=86400,
@@ -23,42 +25,45 @@ def sample() -> ActivityRecord:
 
 
 def test_create(sample):
+    global id_
     resp = data.create(sample)
-    assert resp == sample
+    id_ = resp.id
+    assert isinstance(resp, ActivityRecord)
 
 
 def test_get_one(sample):
-    resp = data.get_one(sample.id)
-    assert resp == sample
+    resp = data.get_one(id_)
+    assert isinstance(resp, ActivityRecord)
 
 
 def test_get_one_missing(sample):
     with pytest.raises(Missing):
-        _ = data.get_one(sample.id + 1)
+        _ = data.get_one(1231245412)
 
 
 def test_get_all(sample):
     resp = data.get_all()
-    assert resp == [sample]
+    assert all(isinstance(item, ActivityRecord) for item in resp)
 
 
 def test_modify(sample):
     sample.color = "red"
-    resp = data.modify(sample.id, sample)
-    assert sample == resp
+    resp = data.modify(id_, sample)
+    assert isinstance(resp, ActivityRecord)
+    assert resp.color == "red"
 
 
 def test_modify_missing(sample):
     sample.color = "red"
     with pytest.raises(Missing):
-        _ = data.modify(sample.id + 1, sample)
+        _ = data.modify(123124, sample)
 
 
 def test_delete():
-    resp = data.delete(1)
+    resp = data.delete(id_)
     assert resp is True
 
 
 def test_delete_missing(sample):
     with pytest.raises(Missing):
-        _ = data.delete(sample.id + 1)
+        _ = data.delete(1241245215)

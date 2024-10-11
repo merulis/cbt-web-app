@@ -53,7 +53,7 @@ def create(user: NewUser, table: str = "user") -> User:
     params = model_to_dict(user)
     try:
         curs.execute(query, params)
-    except IndentationError:
+    except IntegrityError:
         raise Duplicate(msg=f"{table}: user {user.username} alredy exists")
     else:
         id_ = curs.lastrowid

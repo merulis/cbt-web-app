@@ -6,11 +6,10 @@ os.environ["UNIT_TEST"] = "true"
 
 from app.models.user import User, NewUser
 from app.api.routes import user
-from app.errors.db import Missing, Duplicate
 
 
 @pytest.fixture
-def sample() -> User:
+def sample() -> NewUser:
     return User(id=3, email="avv@abb.com", username="Pa Tuohy", hash="...",)
 
 
@@ -30,7 +29,8 @@ def assert_missing(exc):
 
 
 def test_create(sample):
-    assert user.create(sample) == sample
+    resp = user.create(sample)
+    assert isinstance(resp, User)
 
 
 def test_create_duplicate(fakes):

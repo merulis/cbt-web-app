@@ -68,7 +68,7 @@ def create(user: NewUser) -> User:
         raise HTTPException(status_code=409, detail=exc.msg)
 
 
-@router.patch("/")
+@router.patch("/{id}")
 def modify(id: int, user: NewUser) -> User:
     try:
         return service.modify(id, user)
