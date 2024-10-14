@@ -1,16 +1,21 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
-class ActivityBase(BaseModel):
+class ActivityCreate(BaseModel):
     color: str
     type: str
     interval: int
     date: datetime
 
 
-class Activity(ActivityBase):
+class ActivityCreate(ActivityCreate):
+    pass
+
+
+class Activity(ActivityCreate):
+    model_config = ConfigDict(from_attributes=True)
     id: int
 
 

@@ -1,7 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from fastapi import APIRouter, Depends, HTTPException
+
+from app.data import database
+
 from app.errors.exeptions import Missing
-from app.models.activity import Activity, ActivityBase
 from app.service import activity as service
+from app.models.activity import Activity, ActivityCreate
 
 
 router = APIRouter(prefix="/activity")
@@ -9,42 +14,44 @@ router = APIRouter(prefix="/activity")
 
 @router.get("")
 @router.get("/")
-def get_all() -> list[Activity]:
+def get_activies() -> list[Activity]:
     return service.get_all()
 
 
-@router.get("/{id}")
-def get_one(id) -> Activity:
+@router.get("/{activity_id}")
+def get_activity(activity_id: int) -> Activity:
     try:
-        return service.get_one(id)
+        return service.get_one(activity_id)
     except Missing as e:
         raise HTTPException(status_code=404, detail=e.msg)
 
 
 @router.post("/")
-def create(activity: ActivityBase) -> Activity:
-    return service.create(activity)
+def create_activity(
+    activity: ActivityCreate,
+    session: AsyncSession = Depends(database.session_dependency),
+) -> Activity:
+    return service.create(session, activity)
 
 
-@router.patch("/{id}")
-def modify(id: int, activity: ActivityBase) -> Activity:
+@router.patch("/{activity_id}")
+def modify(
+    activity_id: int,
+    activity: ActivityCreate,
+    session: AsyncSession = Depends(database.session_dependency),
+) -> Activity:
     try:
-        return service.modify(id, activity)
+        return service.modify(activity_id, activity)
     except Missing as e:
         raise HTTPException(status_code=404, detail=e.msg)
 
 
-@router.put("/{id}")
-def replace(id: int, activity: ActivityBase) -> Activity:
+@router.delete("/{activity_id}")
+def delete(
+    activity_id: int,
+    session: AsyncSession = Depends(database.session_dependency),
+):
     try:
-        return service.replace(id, activity)
-    except Missing as e:
-        raise HTTPException(status_code=404, detail=e.msg)
-
-
-@router.delete("/{id}")
-def delete(id: int):
-    try:
-        return service.delete(id)
+        return service.delete(session, activity_id)
     except Missing as e:
         raise HTTPException(status_code=404, detail=e.msg)

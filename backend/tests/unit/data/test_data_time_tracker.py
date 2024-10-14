@@ -3,7 +3,7 @@ import pytest
 
 from datetime import datetime
 
-from app.models.activity import Activity, ActivityBase
+from app.models.activity import Activity, ActivityCreate
 from app.errors.exeptions import Missing
 
 
@@ -15,8 +15,8 @@ id_ = None
 
 
 @pytest.fixture
-def sample() -> ActivityBase:
-    return ActivityBase(
+def sample() -> ActivityCreate:
+    return ActivityCreate(
         color="green",
         type="work",
         interval=86400,

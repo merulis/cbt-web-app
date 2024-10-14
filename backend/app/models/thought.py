@@ -12,5 +12,9 @@ class ThoughtBase(BaseModel):
     create: datetime
 
 
-class ThoughtRecord(ThoughtBase):
+class ThoughtCreate(ThoughtBase):
+    id: int
+
+
+class Thought(ThoughtBase):
     id: int

@@ -9,6 +9,10 @@ class MoodBase(BaseModel):
     date: datetime
 
 
+class MoodCreate(MoodBase):
+    pass
+
+
 class Mood(MoodBase):
     id: int
 
