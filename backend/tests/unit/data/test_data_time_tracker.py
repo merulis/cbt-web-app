@@ -3,8 +3,8 @@ import pytest
 
 from datetime import datetime
 
-from app.models.activity import ActivityRecord, NewActivityRecord
-from app.errors.db import Missing
+from app.models.activity import Activity, ActivityBase
+from app.errors.exeptions import Missing
 
 
 os.environ["SQLITE_DB"] = ":memory:"
@@ -15,8 +15,8 @@ id_ = None
 
 
 @pytest.fixture
-def sample() -> NewActivityRecord:
-    return NewActivityRecord(
+def sample() -> ActivityBase:
+    return ActivityBase(
         color="green",
         type="work",
         interval=86400,
@@ -28,12 +28,12 @@ def test_create(sample):
     global id_
     resp = data.create(sample)
     id_ = resp.id
-    assert isinstance(resp, ActivityRecord)
+    assert isinstance(resp, Activity)
 
 
 def test_get_one(sample):
     resp = data.get_one(id_)
-    assert isinstance(resp, ActivityRecord)
+    assert isinstance(resp, Activity)
 
 
 def test_get_one_missing(sample):
@@ -43,13 +43,13 @@ def test_get_one_missing(sample):
 
 def test_get_all(sample):
     resp = data.get_all()
-    assert all(isinstance(item, ActivityRecord) for item in resp)
+    assert all(isinstance(item, Activity) for item in resp)
 
 
 def test_modify(sample):
     sample.color = "red"
     resp = data.modify(id_, sample)
-    assert isinstance(resp, ActivityRecord)
+    assert isinstance(resp, Activity)
     assert resp.color == "red"
 
 

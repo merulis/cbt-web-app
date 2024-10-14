@@ -4,7 +4,7 @@ from datetime import timedelta
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from app.models.user import User, NewUser
-from app.errors.db import Missing, Duplicate
+from app.errors.exeptions import Missing, Duplicate
 
 if os.getenv("UNIT_TEST"):
     from app.fake import user as service

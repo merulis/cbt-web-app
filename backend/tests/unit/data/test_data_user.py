@@ -2,7 +2,7 @@ import os
 import pytest
 
 from app.models.user import User, NewUser
-from app.errors.db import Missing
+from app.errors.exeptions import Missing
 
 
 os.environ["SQLITE_DB"] = ":memory:"

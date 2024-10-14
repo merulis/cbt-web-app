@@ -3,21 +3,17 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class ActivityRecord(BaseModel):
+class ActivityBase(BaseModel):
+    color: str
+    type: str
+    interval: int
+    date: datetime
+
+
+class Activity(ActivityBase):
     id: int
-    color: str
-    type: str
-    interval: int
-    date: datetime
-
-
-class NewActivityRecord(BaseModel):
-    color: str
-    type: str
-    interval: int
-    date: datetime
 
 
 class ActivityStatistic(BaseModel):
-    activies: list[ActivityRecord]
+    activies: list[Activity]
     interval: int

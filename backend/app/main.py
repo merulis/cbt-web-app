@@ -1,6 +1,19 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
 from app.api.main import api_router
+from app.data import database, Base
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    async with database.engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    yield
+
+    # pre shutdown actions
 
 
 app = FastAPI()

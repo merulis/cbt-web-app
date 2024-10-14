@@ -1,5 +1,5 @@
 from app.models.user import User, NewUser
-from app.errors.db import Missing, Duplicate
+from app.errors.exeptions import Missing, Duplicate
 
 
 fakes = [

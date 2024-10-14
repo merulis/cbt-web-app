@@ -1,14 +1,18 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
-class MoodRecord(BaseModel):
+class MoodBase(BaseModel):
     color: str
     type: str
     date: datetime
 
 
+class Mood(MoodBase):
+    id: int
+
+
 class MoodStatistic(BaseModel):
-    moods: list[MoodRecord]
+    moods: list[Mood]
     interval: datetime

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from app.errors.db import Missing
-from app.models.activity import ActivityRecord, NewActivityRecord
-from app.service import time_tracker as service
+from app.errors.exeptions import Missing
+from app.models.activity import Activity, ActivityBase
+from app.service import activity as service
 
 
 router = APIRouter(prefix="/activity")
@@ -9,12 +9,12 @@ router = APIRouter(prefix="/activity")
 
 @router.get("")
 @router.get("/")
-def get_all() -> list[ActivityRecord]:
+def get_all() -> list[Activity]:
     return service.get_all()
 
 
 @router.get("/{id}")
-def get_one(id) -> ActivityRecord:
+def get_one(id) -> Activity:
     try:
         return service.get_one(id)
     except Missing as e:
@@ -22,12 +22,12 @@ def get_one(id) -> ActivityRecord:
 
 
 @router.post("/")
-def create(activity: NewActivityRecord) -> NewActivityRecord:
+def create(activity: ActivityBase) -> Activity:
     return service.create(activity)
 
 
 @router.patch("/{id}")
-def modify(id: int, activity: ActivityRecord) -> ActivityRecord:
+def modify(id: int, activity: ActivityBase) -> Activity:
     try:
         return service.modify(id, activity)
     except Missing as e:
@@ -35,7 +35,7 @@ def modify(id: int, activity: ActivityRecord) -> ActivityRecord:
 
 
 @router.put("/{id}")
-def replace(id: int, activity: ActivityRecord) -> ActivityRecord:
+def replace(id: int, activity: ActivityBase) -> Activity:
     try:
         return service.replace(id, activity)
     except Missing as e:
