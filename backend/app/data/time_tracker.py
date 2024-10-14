@@ -1,4 +1,4 @@
-from .main import curs
+from .database import curs
 from app.errors.db import Missing
 from app.models.time_tracker import ActivityRecord, NewActivityRecord
 
