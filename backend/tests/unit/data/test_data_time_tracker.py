@@ -3,7 +3,7 @@ import pytest
 
 from datetime import datetime
 
-from app.models.time_tracker import ActivityRecord, NewActivityRecord
+from app.models.activity import ActivityRecord, NewActivityRecord
 from app.errors.db import Missing
 
 

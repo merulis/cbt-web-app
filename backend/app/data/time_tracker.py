@@ -1,6 +1,6 @@
 from .database import curs
 from app.errors.db import Missing
-from app.models.time_tracker import ActivityRecord, NewActivityRecord
+from app.models.activity import ActivityRecord, NewActivityRecord
 
 
 curs.execute("""create table if not exists activies(

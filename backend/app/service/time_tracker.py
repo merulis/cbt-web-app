@@ -1,5 +1,5 @@
 from app.data import time_tracker as db
-from app.models.time_tracker import ActivityRecord, NewActivityRecord
+from app.models.activity import ActivityRecord, NewActivityRecord
 
 
 def get_all() -> list[ActivityRecord]:

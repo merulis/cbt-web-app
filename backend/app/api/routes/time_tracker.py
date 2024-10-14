@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.errors.db import Missing
-from app.models.time_tracker import ActivityRecord, NewActivityRecord
+from app.models.activity import ActivityRecord, NewActivityRecord
 from app.service import time_tracker as service
 
 

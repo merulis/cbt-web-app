@@ -1,5 +1,5 @@
 from app.models.user import NewUser, User
-from app.data.main import (curs, IntegrityError)
+from app.data.database import (curs, IntegrityError)
 from app.errors.db import Missing, Duplicate
 
 
