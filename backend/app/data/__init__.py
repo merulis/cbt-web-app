@@ -6,5 +6,5 @@ __all__ = (
 )
 
 from .base import Base
-from .schemas import Activity
+from .models import Activity
 from .database import DataBase, database

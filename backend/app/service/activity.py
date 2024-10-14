@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.data.crud import activity as db_crud
-from app.models.activity import Activity, ActivityCreate
+from app.schemas.activity import Activity, ActivityCreate
 
 
 async def get_all(

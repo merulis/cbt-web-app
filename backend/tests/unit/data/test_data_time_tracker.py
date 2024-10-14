@@ -3,7 +3,7 @@ import pytest
 
 from datetime import datetime
 
-from app.models.activity import Activity, ActivityCreate
+from app.schemas.activity import Activity, ActivityCreate
 from app.errors.exeptions import Missing
 
 

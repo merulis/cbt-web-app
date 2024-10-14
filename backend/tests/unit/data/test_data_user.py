@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from app.models.user import User, NewUser
+from app.schemas.user import User, NewUser
 from app.errors.exeptions import Missing
 
 

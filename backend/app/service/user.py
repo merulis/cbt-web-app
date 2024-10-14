@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from jose import jwt
 from jose.exceptions import JWTError
 
-from app.models.user import NewUser, User
+from app.schemas.user import NewUser, User
 
 if os.getenv("UNIT_TEST"):
     pass

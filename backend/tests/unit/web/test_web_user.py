@@ -4,7 +4,7 @@ import os
 
 os.environ["UNIT_TEST"] = "true"
 
-from app.models.user import User, NewUser
+from app.schemas.user import User, NewUser
 from app.api.routes import user
 
 

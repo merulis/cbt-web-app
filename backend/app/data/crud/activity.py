@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.data import Activity
 
-from app.models.activity import ActivityCreate
+from app.schemas.activity import ActivityCreate
 
 
 async def get_activies(session: AsyncSession) -> list[Activity]:
