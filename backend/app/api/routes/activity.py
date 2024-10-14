@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from app.data import database
 
-from app.errors.exeptions import Missing
+from app.exeptions.data import Missing
 from app.service import activity as service
 from app.schemas.activity import Activity, ActivityCreate
 
