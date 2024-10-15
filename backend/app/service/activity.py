@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.exeptions.data import Missing
-from app.data.crud import activity as db
+from app.core.db.crud import activity as db
 from app.schemas.activity import (
     Activity,
     ActivityCreate,

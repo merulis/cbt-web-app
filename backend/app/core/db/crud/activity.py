@@ -1,9 +1,11 @@
+"""### Module for crud operation for Activity"""
+
 from datetime import datetime
 from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.data import Activity
+from app.core.db import Activity
 
 from app.schemas.activity import ActivityCreate, ActivityUpdatePartial
 

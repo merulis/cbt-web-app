@@ -2,9 +2,9 @@ __all__ = (
     "Base",
     "Activity",
     "DataBase",
-    "database"
+    "database",
 )
 
-from .base import Base
-from .models import Activity
+from .models.base import Base
+from .models.models import Activity
 from .database import DataBase, database

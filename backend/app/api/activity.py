@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi import APIRouter, Depends, status
 
-from app.data import database
+from app.core.db import database
 
 from app.service import activity as service
 from app.schemas.activity import (

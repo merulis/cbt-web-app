@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import (
     async_scoped_session,
 )
 
-from app.settings import settings
+from app.core.settings import settings
 
 
 class DataBase:

@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.api.router import api_router
-from app.data import database, Base
+from app.core.db import database, Base
 
 
 @asynccontextmanager
