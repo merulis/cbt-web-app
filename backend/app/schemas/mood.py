@@ -10,7 +10,11 @@ class MoodBase(BaseModel):
 
 
 class MoodCreate(MoodBase):
-    pass
+    ...
+
+
+class MoodUpdate(MoodCreate):
+    ...
 
 
 class Mood(MoodBase):

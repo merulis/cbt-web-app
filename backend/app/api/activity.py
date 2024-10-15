@@ -45,7 +45,7 @@ async def modify_activity(
     session: AsyncSession = Depends(database.scoped_session_dependency),
 ) -> Activity:
     try:
-        return await service.modify(session, activity_id, activity)
+        return await service.update(session, activity_id, activity)
     except Missing as e:
         raise HTTPException(status_code=404, detail=e.msg)
 

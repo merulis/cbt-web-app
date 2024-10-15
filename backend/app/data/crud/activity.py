@@ -1,10 +1,11 @@
+from datetime import datetime
 from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.data import Activity
 
-from app.schemas.activity import ActivityCreate
+from app.schemas.activity import ActivityCreate, ActivityUpdatePartial
 
 
 async def get_activies(session: AsyncSession) -> list[Activity]:
@@ -23,10 +24,38 @@ async def get_activity(
 
 async def create_activity(
     session: AsyncSession,
-    data: ActivityCreate,
+    activity_in: ActivityCreate,
 ) -> Activity:
-    activity = Activity(**data.model_dump())
+    record = activity_in.model_dump()
+    date: datetime = record.get("date")
+    record.update({"date": date.replace(tzinfo=None)})
+
+    activity = Activity(**record)
     session.add(activity)
 
     await session.commit()
     await session.refresh(activity)
+
+    return activity
+
+
+async def update_activity(
+    session: AsyncSession,
+    activity: Activity,
+    activity_update: ActivityUpdatePartial,
+) -> Activity:
+    for key, value in activity_update.model_dump(exclude_unset=True).items():
+        setattr(activity, key, value)
+
+    await session.commit()
+    await session.refresh(activity)
+
+    return activity
+
+
+async def delete_activity(
+    session: AsyncSession,
+    activity: Activity,
+) -> None:
+    await session.delete(activity)
+    await session.commit()

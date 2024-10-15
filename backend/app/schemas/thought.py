@@ -13,7 +13,11 @@ class ThoughtBase(BaseModel):
 
 
 class ThoughtCreate(ThoughtBase):
-    id: int
+    ...
+
+
+class ThoughtUpdate(ThoughtBase):
+    ...
 
 
 class Thought(ThoughtBase):

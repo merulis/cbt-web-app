@@ -1,39 +1,44 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.data.crud import activity as db_crud
+from app.exeptions.data import Missing
+from app.data.crud import activity as db
 from app.schemas.activity import Activity, ActivityCreate
 
 
 async def get_all(
     session: AsyncSession,
 ) -> list[Activity]:
-    return await db_crud.get_activies(session)
+    return await db.get_activies(session)
 
 
 async def get_one(
     session: AsyncSession,
     activity_id: int,
 ) -> Activity:
-    return await db_crud.get_activity(session, activity_id)
+    activity = await db.get_activity(session, activity_id)
+    if activity:
+        return activity
+
+    raise Missing(msg=f"Activity id: {id} not found")
 
 
 async def create(
     session: AsyncSession,
-    activity: ActivityCreate,
+    activity_in: ActivityCreate,
 ) -> ActivityCreate:
-    pass
+    return await db.create_activity(session, activity_in)
 
 
-def modify(
+async def update(
     session: AsyncSession,
-    activity_id: int,
-    activity: ActivityCreate,
+    activity_in: Activity,
+    activity_update: ActivityCreate,
 ) -> Activity:
-    pass
+    return await db.update_activity(session, activity_in, activity_update)
 
 
-def delete(
+async def delete(
     session: AsyncSession,
-    activity_id: int,
-) -> bool:
-    pass
+    activity_in: int,
+) -> None:
+    await db.delete_activity(activity_in)

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from pydantic import BaseModel, ConfigDict
 
@@ -6,12 +6,19 @@ from pydantic import BaseModel, ConfigDict
 class ActivityCreate(BaseModel):
     color: str
     type: str
-    interval: int
+    interval: timedelta
     date: datetime
 
 
 class ActivityCreate(ActivityCreate):
-    pass
+    ...
+
+
+class ActivityUpdatePartial(BaseModel):
+    color: str | None = None
+    type: str | None = None
+    interval: timedelta | None = None
+    date: datetime | None = None
 
 
 class Activity(ActivityCreate):
