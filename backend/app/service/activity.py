@@ -2,7 +2,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.exeptions.data import Missing
 from app.data.crud import activity as db
-from app.schemas.activity import Activity, ActivityCreate
+from app.schemas.activity import (
+    Activity,
+    ActivityCreate,
+    ActivityUpdatePartial,
+)
 
 
 async def get_all(
@@ -19,26 +23,36 @@ async def get_one(
     if activity:
         return activity
 
-    raise Missing(msg=f"Activity id: {id} not found")
+    raise Missing(msg=f"Activity id={activity_id} not found")
 
 
 async def create(
     session: AsyncSession,
     activity_in: ActivityCreate,
 ) -> ActivityCreate:
-    return await db.create_activity(session, activity_in)
+    return await db.create_activity(
+        session=session,
+        activity_create=activity_in,
+    )
 
 
 async def update(
     session: AsyncSession,
     activity_in: Activity,
-    activity_update: ActivityCreate,
+    activity_update: ActivityUpdatePartial,
 ) -> Activity:
-    return await db.update_activity(session, activity_in, activity_update)
+    return await db.update_activity(
+        session=session,
+        activity_in=activity_in,
+        activity_update=activity_update,
+    )
 
 
 async def delete(
     session: AsyncSession,
-    activity_in: int,
+    activity_delete: Activity,
 ) -> None:
-    await db.delete_activity(activity_in)
+    await db.delete_activity(
+        session=session,
+        activity_delete=activity_delete,
+    )

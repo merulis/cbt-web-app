@@ -27,6 +27,7 @@ class DataBase:
         return session
 
     async def session_dependency(self):
+        """return new sqlalchemy.AsyncSession"""
         async with self.session_factory() as session:
             yield session
             await session.close()

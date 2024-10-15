@@ -24,9 +24,9 @@ async def get_activity(
 
 async def create_activity(
     session: AsyncSession,
-    activity_in: ActivityCreate,
+    activity_create: ActivityCreate,
 ) -> Activity:
-    record = activity_in.model_dump()
+    record = activity_create.model_dump()
     date: datetime = record.get("date")
     record.update({"date": date.replace(tzinfo=None)})
 
@@ -41,21 +41,21 @@ async def create_activity(
 
 async def update_activity(
     session: AsyncSession,
-    activity: Activity,
+    activity_in: Activity,
     activity_update: ActivityUpdatePartial,
 ) -> Activity:
     for key, value in activity_update.model_dump(exclude_unset=True).items():
-        setattr(activity, key, value)
+        setattr(activity_in, key, value)
 
     await session.commit()
-    await session.refresh(activity)
+    await session.refresh(activity_in)
 
-    return activity
+    return activity_in
 
 
 async def delete_activity(
     session: AsyncSession,
-    activity: Activity,
+    activity_delete: Activity,
 ) -> None:
-    await session.delete(activity)
+    await session.delete(activity_delete)
     await session.commit()
