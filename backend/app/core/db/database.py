@@ -41,4 +41,4 @@ class DataBase:
         await session.close()
 
 
-database = DataBase(settings.db_url, settings.db_echo)
+database = DataBase(str(settings.SQLALCHEMY_DATABASE_URL), settings.DB_ECHO)
