@@ -15,11 +15,16 @@ async def lifespan(app: FastAPI):
     yield
     # pre shutdown actions
 
-app = FastAPI(lifespan=lifespan, title=settings.PROJECT_NAME)
+
+app = FastAPI(
+    lifespan=lifespan,
+    title=settings.PROJECT_NAME,
+)
 
 app.include_router(api_router)
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app="main:app", reload=True)
