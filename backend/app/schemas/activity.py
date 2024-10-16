@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict
 
 class ActivityCreate(BaseModel):
     color: str
-    type: str
+    category: str
     interval: timedelta
     date: datetime
 
@@ -16,7 +16,7 @@ class ActivityCreate(ActivityCreate):
 
 class ActivityUpdatePartial(BaseModel):
     color: str | None = None
-    type: str | None = None
+    category: str | None = None
     interval: timedelta | None = None
     date: datetime | None = None
 

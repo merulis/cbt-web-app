@@ -12,10 +12,10 @@ if TYPE_CHECKING:
     pass
 
 
-class Activity(Base, UserRelationMixin):
+class Activity(UserRelationMixin, Base):
     _user_back_populates = "activies"
 
     color: Mapped[str]
-    type: Mapped[str]
+    category: Mapped[str]
     interval: Mapped[timedelta]
     date: Mapped[datetime]

@@ -18,7 +18,7 @@ id_ = None
 def sample() -> ActivityCreate:
     return ActivityCreate(
         color="green",
-        type="work",
+        category="work",
         interval=86400,
         date=datetime(year=2024, month=12, day=1),
     )
