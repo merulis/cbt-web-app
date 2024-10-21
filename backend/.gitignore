@@ -1,5 +1,7 @@
+# linter cache
 .ruff_cache
 
+# SQLite3 files
 *.db
 
 # Byte-compiled / optimized / DLL files
