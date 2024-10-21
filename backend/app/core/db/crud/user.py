@@ -1,10 +1,9 @@
 import asyncio
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
-from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.db import database, User, Profile, Activity
@@ -67,6 +66,8 @@ async def create_activity(
         )
         for color, category, interval, _ in activies_in
     ]
+
+    return activies
 
 
 async def main():

@@ -12,12 +12,10 @@ class ThoughtBase(BaseModel):
     create: datetime
 
 
-class ThoughtCreate(ThoughtBase):
-    ...
+class ThoughtCreate(ThoughtBase): ...
 
 
-class ThoughtUpdate(ThoughtBase):
-    ...
+class ThoughtUpdate(ThoughtBase): ...
 
 
 class Thought(ThoughtBase):

@@ -14,11 +14,7 @@ id_ = None
 
 @pytest.fixture
 def sample() -> NewUser:
-    return NewUser(
-        username="author",
-        hash="qwerty",
-        email="abc@abc.com"
-    )
+    return NewUser(username="author", hash="qwerty", email="abc@abc.com")
 
 
 def test_create(sample):

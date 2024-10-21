@@ -10,7 +10,12 @@ from app.api.routes import user
 
 @pytest.fixture
 def sample() -> NewUser:
-    return User(id=3, email="avv@abb.com", username="Pa Tuohy", hash="...",)
+    return User(
+        id=3,
+        email="avv@abb.com",
+        username="Pa Tuohy",
+        hash="...",
+    )
 
 
 @pytest.fixture
