@@ -10,7 +10,8 @@ class ActivityCreate(BaseModel):
     date: datetime
 
 
-class ActivityCreate(ActivityCreate): ...
+class ActivityCreate(ActivityCreate):
+    ...
 
 
 class ActivityUpdatePartial(BaseModel):

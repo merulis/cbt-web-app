@@ -2,7 +2,7 @@
 ## Requirements
 - poetry
 - Docker
-  
+
 ## Deploying
 Build docker container
 ```

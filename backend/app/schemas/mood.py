@@ -9,10 +9,12 @@ class MoodBase(BaseModel):
     date: datetime
 
 
-class MoodCreate(MoodBase): ...
+class MoodCreate(MoodBase):
+    ...
 
 
-class MoodUpdate(MoodCreate): ...
+class MoodUpdate(MoodCreate):
+    ...
 
 
 class Mood(MoodBase):
