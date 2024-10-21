@@ -15,15 +15,15 @@
 
 This is fullstack web application
 Based on:
-* FastAPI
-  * Pydatic
-  * SQLAlchemy
-  * PostgreSQL
-* Vue-JS
+* **FastAPI**
+  * **Pydatic**
+  * **SQLAlchemy**
+  * **PostgreSQL**
+* **Vue-JS**
   * Vite
-* Docker / Docker Compose for development and deploying
-* Pytest
-* Traefik as reverse proxy
+* **Docker** / **Docker Compose** for development and deploying
+* **Pytest**
+* **Traefik** as reverse proxy
 
 Не все из перечисленного используется на данный момент. Дополнения будут появляться в процессе.
 
