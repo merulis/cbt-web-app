@@ -34,7 +34,12 @@ async def create_profile(
     lname: str | None = None,
     bio: str | None = None,
 ) -> Profile:
-    profile = Profile(user_id=user_id, first_name=fname, last_name=lname, bio=bio)
+    profile = Profile(
+        user_id=user_id,
+        first_name=fname,
+        last_name=lname,
+        bio=bio,
+    )
     session.add(profile)
     await session.commit()
 
