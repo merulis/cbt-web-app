@@ -9,6 +9,6 @@ class Profile(Base, UserRelationMixin):
     _user_id_unique = True
     _user_back_populates = "profile"
 
-    first_name: Mapped[str | None] = mapped_column(String(32))
-    last_name: Mapped[str | None] = mapped_column(String(32))
-    bio: Mapped[str | None] = mapped_column(String(256))
+    first_name: Mapped[str | None] = mapped_column(String(64))
+    last_name: Mapped[str | None] = mapped_column(String(64))
+    bio: Mapped[str | None] = mapped_column(String(255))
