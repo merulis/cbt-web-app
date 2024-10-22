@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 
 class User(Base):
     username: Mapped[str] = mapped_column(String(32), unique=True)
+    passhash: Mapped[str]
 
     activies: Mapped[list["Activity"]] = relationship(back_populates="user")
     profile: Mapped["Profile"] = relationship(back_populates="user")
