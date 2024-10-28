@@ -22,3 +22,8 @@ class UserSchema(BaseModel):
     email: EmailStr
     password: bytes
     active: bool = True
+
+
+class TokenInfo(BaseModel):
+    access_token: str
+    token_type: str
