@@ -1,84 +1,57 @@
-import asyncio
-
-from datetime import timedelta
-
 from sqlalchemy import select
-from sqlalchemy.orm import joinedload
+from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.db import database, User, Profile, Activity
+from app.core.db import User
+
+from app.schemas.user import UserCreate, UserUpdate
 
 
-async def create_user(session: AsyncSession, username: str) -> User:
-    user = User(username=username)
-    session.add(user)
-    await session.commit()
-    print("user", user)
-    return user
-
-
-async def get_user_by_username(
-    session: AsyncSession,
-    username: str,
-) -> User | None:
-    stmt = select(User).where(User.username == username)
-    user: User | None = await session.scalar(stmt)
-    print(f"Found user {username}: {user}")
-    return user
-
-
-async def create_profile(
-    session: AsyncSession,
-    user_id: int,
-    fname: str | None = None,
-    lname: str | None = None,
-    bio: str | None = None,
-) -> Profile:
-    profile = Profile(
-        user_id=user_id,
-        first_name=fname,
-        last_name=lname,
-        bio=bio,
-    )
-    session.add(profile)
-    await session.commit()
-
-    return profile
-
-
-async def show_users_and_profile(session: AsyncSession):
-    stmt = select(User).options(joinedload(User.profile)).order_by(User.id)
-    users = await session.scalars(stmt)
-
-    for user in users:
-        print(user)
-        if user.profile:
-            print(user.profile)
-
-
-async def create_activity(
-    session: AsyncSession,
-    user_id: int,
-    *activies_in: str,
-) -> list[Activity]:
-    activies = [
-        Activity(
-            color=color,
-            category=category,
-            interval=timedelta(days=interval),
-            date=database.now(),
-            user_id=user_id,
-        )
-        for color, category, interval, _ in activies_in
-    ]
-
+async def get_users(session: AsyncSession) -> list[User]:
+    stmt = select(User).order_by(User.id)
+    result: Result = await session.execute(stmt)
+    activies = list(result.scalars().all())
     return activies
 
 
-async def main():
-    async with database.session_factory() as session:
-        await show_users_and_profile(session)
+async def get_user(
+    session: AsyncSession,
+    user_id: int,
+) -> User | None:
+    return await session.get(User, user_id)
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+async def create_user(
+    session: AsyncSession,
+    user_create: UserCreate,
+) -> User:
+    record = user_create.model_dump()
+    user = User(**record)
+    session.add(user)
+
+    await session.commit()
+    await session.refresh(user)
+
+    return user
+
+
+async def update_user(
+    session: AsyncSession,
+    user_in: User,
+    user_update: UserUpdate,
+) -> User:
+    for key, value in user_update.model_dump(exclude_unset=True).items():
+        setattr(user_in, key, value)
+
+    await session.commit()
+    await session.refresh(user_in)
+
+    return user_in
+
+
+async def delete_user(
+    session: AsyncSession,
+    user_delete: User,
+) -> None:
+    await session.delete(user_delete)
+    await session.commit()
