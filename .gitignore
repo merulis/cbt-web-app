@@ -1,3 +1,4 @@
 # Created by pytest automatically.
 .pytest_cache
 .ruff_cache
+certs/
