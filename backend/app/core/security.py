@@ -1,33 +1,46 @@
-from typing import Any
-
-from datetime import datetime, timedelta, timezone
-
 import jwt
-from passlib.context import CryptContext
+import bcrypt
 
 from app.core.settings import settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-
-ALGORITHM = "HS256"
-
-
-def create_access_token(subject: str | Any, expires_delta: timedelta) -> str:
-    expire = datetime.now(timezone.utc) + expires_delta
-    to_encode = {"expires": expire, "subject": str(subject)}
-    encoded_jwt = jwt.encode(
-        payload=to_encode,
-        key=settings.SECRETS_KEY,
-        algorithm=ALGORITHM,
+def encode_jwt(
+    payload: dict,
+    private_key: str = settings.JWT.PRIVATE_KEY.read_text(),
+    algorithm: str = settings.JWT.ALGORITHM,
+):
+    encoded = jwt.encode(
+        payload=payload,
+        key=private_key,
+        algorithm=algorithm,
     )
-
-    return encoded_jwt
-
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    return encoded
 
 
-def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+def decode_jwt(
+    token: str | bytes,
+    public_key: str = settings.JWT.PUBLIC_KEY.read_text(),
+    algorithm: str = settings.JWT.ALGORITHM,
+):
+    decoded = jwt.decode(
+        jwt=token,
+        key=public_key,
+        algorithm=[algorithm],
+    )
+    return decoded
+
+
+def hash_password(password: str) -> bytes:
+    salt = bcrypt.gensalt()
+    pw: bytes = password.encode()
+    return bcrypt.hashpw(password=pw, salt=salt)
+
+
+def validate_password(
+    password: str,
+    hash: bytes,
+) -> bool:
+    return bcrypt.checkpw(
+        password=password.encode(),
+        hashed_password=hash,
+    )
