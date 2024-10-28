@@ -37,7 +37,7 @@ class DBSettings(BaseModel):
 
 
 class AuthJWT(BaseModel):
-    ALGORITM: str = "RS256"
+    ALGORITHM: str = "RS256"
     PRIVATE_KEY: Path = BACKEND_BASE_DIR / "certs" / "jwt-private.pem"
     PUBLIC_KEY: Path = BACKEND_BASE_DIR / "certs" / "jwt-public.pem"
 
