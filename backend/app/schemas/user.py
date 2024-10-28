@@ -16,5 +16,9 @@ class UserUpdate(UserBase):
     ...
 
 
-class User(BaseModel):
+class UserSchema(BaseModel):
     id: int
+    username: str
+    email: EmailStr
+    password: bytes
+    active: bool = True
