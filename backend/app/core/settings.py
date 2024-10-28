@@ -1,4 +1,5 @@
 import secrets
+from pathlib import Path
 
 from pydantic import (
     PostgresDsn,
@@ -8,6 +9,9 @@ from pydantic import (
 
 from pydantic_core import MultiHostUrl
 from pydantic_settings import BaseSettings
+
+
+BACKEND_BASE_DIR = Path(__file__).parent.parent
 
 
 class DBSettings(BaseModel):
@@ -32,6 +36,12 @@ class DBSettings(BaseModel):
         )
 
 
+class AuthJWT(BaseModel):
+    ALGORITM: str = "RS256"
+    PRIVATE_KEY: Path = BACKEND_BASE_DIR / "certs" / "jwt-private.pem"
+    PUBLIC_KEY: Path = BACKEND_BASE_DIR / "certs" / "jwt-public.pem"
+
+
 class Settings(BaseSettings):
     API_V1_STR: str = "api/v1"
     SECRETS_KEY: str = secrets.token_urlsafe(32)
@@ -43,8 +53,11 @@ class Settings(BaseSettings):
 
     DB: DBSettings = DBSettings()
 
+    JWT: AuthJWT = AuthJWT()
+
     FIRST_SUPERUSER: str = ""
     FIRST_SUPERUSER_PASSWORD: str = ""
 
 
 settings = Settings()
+print(settings.JWT.PRIVATE_KEY)
