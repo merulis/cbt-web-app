@@ -40,12 +40,13 @@ class AuthJWT(BaseModel):
     ALGORITHM: str = "RS256"
     PRIVATE_KEY: Path = BACKEND_BASE_DIR / "certs" / "jwt-private.pem"
     PUBLIC_KEY: Path = BACKEND_BASE_DIR / "certs" / "jwt-public.pem"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 1  # 1 minutes only for dev
+    REFRESH_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
 
 
 class Settings(BaseSettings):
     API_V1_STR: str = "api/v1"
     SECRETS_KEY: str = secrets.token_urlsafe(32)
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8  # 8 days
 
     FRONEND_HOST: str = ""
 
@@ -60,4 +61,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-print(settings.JWT.PRIVATE_KEY)
