@@ -1,3 +1,6 @@
+# logs
+/logs
+
 # linter cache
 .ruff_cache
 
