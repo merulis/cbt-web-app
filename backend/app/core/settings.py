@@ -1,4 +1,5 @@
 import secrets
+
 from pathlib import Path
 
 from pydantic import (
@@ -12,6 +13,13 @@ from pydantic_settings import BaseSettings
 
 
 BACKEND_BASE_DIR = Path(__file__).parent.parent
+
+
+class Logger(BaseModel):
+    FORMAT: str = "%(levelname)s:%(asctime)s: %(name)s - %(message)s"
+    LOG_PATH: Path = BACKEND_BASE_DIR.parent / "logs"
+    RETRY_WAIT_SEC: int = 5
+    RETRY_MAX_TRIES: int = RETRY_WAIT_SEC * 12
 
 
 class DBSettings(BaseModel):
@@ -51,6 +59,8 @@ class Settings(BaseSettings):
     FRONEND_HOST: str = ""
 
     PROJECT_NAME: str = "CBT APP"
+
+    LOG: Logger = Logger()
 
     DB: DBSettings = DBSettings()
 
