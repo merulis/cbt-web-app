@@ -16,7 +16,7 @@
 This is fullstack web application
 Based on:
 * **FastAPI**
-  * **Pydatic**
+  * **Pydantic**
   * **SQLAlchemy**
   * **PostgreSQL**
 * **Vue-JS**
