@@ -54,7 +54,22 @@ def validate_token_payload(payload: dict) -> TokenPayload:
     except ValidationError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication error, invalid token",
+            detail="Token validation error",
         )
 
     return validate_payload
+
+
+def validate_token_type(
+    payload: TokenPayload,
+    token_type: str,
+) -> bool:
+    """raise exception if payload.token_type != token_type"""
+    type_in = payload.token_type
+    if type_in == token_type:
+        return True
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail=f"Token type invalid '{type_in}' expected '{token_type}'",
+    )
