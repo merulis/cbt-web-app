@@ -15,6 +15,16 @@ from pydantic_settings import BaseSettings
 BACKEND_BASE_DIR = Path(__file__).parent.parent
 
 
+class RunConfig(BaseModel):
+    APP: str = "main:app"
+    HOST: str = "localhost"
+    PORT: int = "8000"
+
+
+class Api(BaseModel):
+    PREFIX: str = "/api/v1"
+
+
 class Logger(BaseModel):
     FORMAT: str = "%(levelname)s:%(asctime)s: %(name)s - %(message)s"
     LOG_PATH: Path = BACKEND_BASE_DIR.parent / "logs"
@@ -55,17 +65,16 @@ class AuthJWT(BaseModel):
 
 
 class Settings(BaseSettings):
-    API_V1_STR: str = "api/v1"
+    API: Api = Api()
     SECRETS_KEY: str = secrets.token_urlsafe(32)
 
     FRONEND_HOST: str = ""
 
     PROJECT_NAME: str = "CBT APP"
 
+    RUN: RunConfig = RunConfig()
     LOG: Logger = Logger()
-
     DB: DBSettings = DBSettings()
-
     JWT: AuthJWT = AuthJWT()
 
     FIRST_SUPERUSER: str = ""
