@@ -34,7 +34,7 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
 )
 
-app.include_router(api_router)
+app.include_router(router=api_router, prefix=settings.API.PREFIX)
 
 
 @retry(
@@ -47,7 +47,7 @@ def main():
     import uvicorn
 
     logger.info("Uvicorn run app")
-    uvicorn.run(app="main:app", reload=True)
+    uvicorn.run(app=settings.RUN.APP, reload=True)
     logger.info("Uvicorn shutdown app")
 
 
