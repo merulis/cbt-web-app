@@ -30,4 +30,8 @@ def auth_user_check_self_info(
     payload: TokenPayload = Depends(service.get_currnet_token_payload),
     user: UserSchema = Depends(service.get_currnet_active_user),
 ):
-    return {"username": user.username, "email": user.email, "logget_in_at": payload.iat}
+    return {
+        "username": user.username,
+        "email": user.email,
+        "logget_in_at": payload.iat,
+    }
