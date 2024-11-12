@@ -47,11 +47,11 @@ def main():
     import uvicorn
 
     logger.info("Uvicorn run app")
-    raise Exception
+
     uvicorn.run(app="main:app", reload=True)
+
     logger.info("Uvicorn shutdown app")
 
 
 if __name__ == "__main__":
-    for _ in range(19):
-        main()
+    main()
