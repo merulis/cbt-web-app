@@ -40,20 +40,20 @@ class TokenInfo(BaseModel):
     token_type: str = "Bearer"
 
 
-class AccessTokenPayload(BaseModel):
-    token_type: Literal["access"]
-    sub: int
+class Token(BaseModel):
+    token_type: Literal["access", "refresh"]
+    sub: str  # FIXME: only while using fake db, real db using int
+    exp: datetime
+    iat: datetime
+
+
+class AccessTokenPayload(Token):
     username: str
     email: EmailStr
-    exp: datetime
-    iat: datetime
 
 
-class RefreshTokenPayload(BaseModel):
-    token_type: Literal["refresh"]
-    sub: int
-    exp: datetime
-    iat: datetime
+class RefreshTokenPayload(Token):
+    pass
 
 
 TokenPayload = Union[AccessTokenPayload, RefreshTokenPayload]
