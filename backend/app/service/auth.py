@@ -1,19 +1,20 @@
 from app.schemas.user import UserSchema, TokenPayload
 
-from jwt.exceptions import InvalidTokenError
+from jwt.exceptions import ExpiredSignatureError
+from pydantic import ValidationError
+
 from fastapi import (
     Form,
     HTTPException,
     Depends,
     status,
 )
-
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import OAuth2PasswordBearer
 
 from app.core import security as auth
 
 
-http_bearer = HTTPBearer()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login/")
 
 john = UserSchema(
     id=1,
@@ -57,28 +58,36 @@ def validate_user(
 
     if not user.active:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="User inactive"
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="User inactive",
         )
 
     return user
 
 
 def get_currnet_token_payload(
-    credentials: HTTPAuthorizationCredentials = Depends(http_bearer),
+    token: str = Depends(oauth2_scheme),
 ) -> TokenPayload:
-    token = credentials.credentials
     try:
         payload = auth.decode_jwt(
             token=token,
         )
         validate_payload = TokenPayload.model_validate(payload)
-    except InvalidTokenError as e:
+
+    except ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail={f"Invalid token {e}"},
+            detail="Authentication error",
         )
 
-    return validate_payload
+    except ValidationError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authentication error",
+        )
+
+    else:
+        return validate_payload
 
 
 def get_currnet_user(
