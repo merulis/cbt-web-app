@@ -1,3 +1,5 @@
+from typing import Literal, Union
+
 from pydantic import BaseModel
 from pydantic import EmailStr, Field
 
@@ -11,11 +13,11 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    ...
+    pass
 
 
 class UserUpdate(UserBase):
-    ...
+    pass
 
 
 class UserSchema(BaseModel):
@@ -26,14 +28,32 @@ class UserSchema(BaseModel):
     active: bool = True
 
 
+class UserInfo(BaseModel):
+    username: str
+    email: EmailStr
+    logget_at: datetime
+
+
 class TokenInfo(BaseModel):
     access_token: str
-    token_type: str
+    refresh_token: str
+    token_type: str = "Bearer"
 
 
-class TokenPayload(BaseModel):
+class AccessTokenPayload(BaseModel):
+    token_type: Literal["access"]
     sub: int
     username: str
     email: EmailStr
     exp: datetime
     iat: datetime
+
+
+class RefreshTokenPayload(BaseModel):
+    token_type: Literal["refresh"]
+    sub: int
+    exp: datetime
+    iat: datetime
+
+
+TokenPayload = Union[AccessTokenPayload, RefreshTokenPayload]
