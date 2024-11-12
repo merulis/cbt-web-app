@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from pydantic import EmailStr, Field
 
+from datetime import datetime
+
 
 class UserBase(BaseModel):
     username: str = Field(..., min_length=3, max_length=32)
@@ -27,3 +29,11 @@ class UserSchema(BaseModel):
 class TokenInfo(BaseModel):
     access_token: str
     token_type: str
+
+
+class TokenPayload(BaseModel):
+    sub: int
+    username: str
+    email: EmailStr
+    exp: datetime
+    iat: datetime
