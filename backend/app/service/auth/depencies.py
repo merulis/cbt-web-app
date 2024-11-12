@@ -1,6 +1,9 @@
 from datetime import timedelta
 
-from app.service.auth.validation import validate_token_payload
+from app.service.auth.validation import (
+    validate_token_payload,
+    validate_token_type,
+)
 from app.service.auth.crud import user_db as db
 from app.core.settings import settings
 from app.core import security
@@ -39,11 +42,12 @@ def create_jwt(
     )
 
 
+# FIXME: now we passing username in sub, it need to change on id
 def create_access_token(
     user: UserSchema,
 ) -> str:
     jwt_payload = {
-        "sub": user.id,
+        "sub": user.username,
         "username": user.username,
         "email": user.email,
     }
@@ -55,11 +59,12 @@ def create_access_token(
     )
 
 
+# FIXME: now we passing username in sub, it need to change on id
 def create_refresh_token(
     user: UserSchema,
 ) -> str:
     jwt_payload = {
-        "sub": user.id,
+        "sub": user.username,
     }
 
     expire = timedelta(days=settings.JWT.REFRESH_TOKEN_EXPIRE_DAYS)
@@ -82,32 +87,39 @@ def get_currnet_token_payload(
     except ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication error, token expired",
+            detail="Token expired",
         )
 
-    validate_payload = validate_token_payload(
-        payload=payload,
-    )
+    validate_payload = validate_token_payload(payload)
 
     return validate_payload
+
+
+def get_user_by_token_sub(
+    payload: TokenPayload = Depends(get_currnet_token_payload),
+):
+    username: str = payload.sub
+    if user := db.get(username):
+        return user
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Token invalid",
+    )
 
 
 def get_currnet_auth_user(
     payload: TokenPayload = Depends(get_currnet_token_payload),
 ) -> UserSchema:
-    http_exeption = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Token invalid",
-    )
-    if payload.token_type != settings.JWT.ACCESS_TYPE:
-        http_exeption.detail = "Token type invalid"
-        raise http_exeption
+    validate_token_type(payload, settings.JWT.ACCESS_TYPE)
+    return get_user_by_token_sub(payload=payload)
 
-    username: str = payload.username
-    if user := db.get(username):
-        return user
 
-    raise http_exeption
+def get_currnet_auth_user_for_refresh(
+    payload: TokenPayload = Depends(get_currnet_token_payload),
+) -> UserSchema:
+    validate_token_type(payload, settings.JWT.REFRESH_TYPE)
+    return get_user_by_token_sub(payload=payload)
 
 
 def get_currnet_active_user(
