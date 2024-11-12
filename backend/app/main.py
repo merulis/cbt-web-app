@@ -47,9 +47,7 @@ def main():
     import uvicorn
 
     logger.info("Uvicorn run app")
-
     uvicorn.run(app="main:app", reload=True)
-
     logger.info("Uvicorn shutdown app")
 
 
