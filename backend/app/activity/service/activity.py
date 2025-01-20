@@ -1,12 +1,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.exeptions.data import Missing
-from app.core.db.crud import activity as db
-from app.schemas.activity import (
+from app.activity.repository import activity as db
+from app.activity.schemas.activity import (
     Activity,
     ActivityCreate,
     ActivityUpdatePartial,
 )
+
+from app.db.exceptions import Missing
 
 
 async def get_all(

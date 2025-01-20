@@ -1,5 +1,5 @@
 from app.core import security as auth
-from app.schemas.user import UserSchema
+from app.auth.schemas.user import UserSchema
 
 
 john = UserSchema(

@@ -2,9 +2,9 @@ from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.db import User
+from app.db import User
 
-from app.schemas.user import UserCreate, UserUpdate
+from app.auth.schemas.user import UserCreate, UserUpdate
 
 
 async def get_users(session: AsyncSession) -> list[User]:

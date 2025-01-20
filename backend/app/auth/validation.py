@@ -1,12 +1,12 @@
 from app.core import security as auth
 from app.core.settings import settings
-from app.schemas.user import (
+from app.auth.schemas.user import (
     AccessTokenPayload,
     RefreshTokenPayload,
     TokenPayload,
 )
 
-from app.service.auth.crud import user_db as db
+from app.auth.fake_data import user_db as db
 from fastapi import Form, HTTPException, status
 from pydantic import ValidationError
 

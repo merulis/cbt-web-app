@@ -1,6 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
-from app.schemas.user import NewUser
+from app.auth.schemas.user import NewUser
 from app.main import app
 
 

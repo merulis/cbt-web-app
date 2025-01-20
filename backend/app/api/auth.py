@@ -3,10 +3,10 @@ from fastapi import (
     Depends,
 )
 
-from app.service.auth import depencies as service
-from app.service.auth import validation
+from app.auth.service import jwt
+from app.auth import validation
 
-from app.schemas.user import (
+from app.auth.schemas.user import (
     UserSchema,
     TokenInfo,
     TokenPayload,
@@ -22,24 +22,24 @@ router = APIRouter(prefix="/auth", dependencies=[Depends(http_bearer)])
 
 @router.post("/login/", response_model=TokenInfo)
 def auth_user(user: UserSchema = Depends(validation.validate_user)):
-    access_token = service.create_access_token(user)
-    refresh_token = service.create_refresh_token(user)
+    access_token = jwt.create_access_token(user)
+    refresh_token = jwt.create_refresh_token(user)
     return TokenInfo(access_token=access_token, refresh_token=refresh_token)
 
 
 @router.post("/token/refresh/", response_model=TokenInfo)
 def refresh_jwt(
-    user: UserSchema = Depends(service.get_currnet_auth_user_for_refresh),
+    user: UserSchema = Depends(jwt.get_currnet_auth_user_for_refresh),
 ):
-    access_token = service.create_access_token(user)
-    refresh_token = service.create_refresh_token(user)
+    access_token = jwt.create_access_token(user)
+    refresh_token = jwt.create_refresh_token(user)
     return TokenInfo(access_token=access_token, refresh_token=refresh_token)
 
 
 @router.get("/user/me/")
 def auth_user_check_self_info(
-    payload: TokenPayload = Depends(service.get_currnet_token_payload),
-    user: UserSchema = Depends(service.get_currnet_active_user),
+    payload: TokenPayload = Depends(jwt.get_currnet_token_payload),
+    user: UserSchema = Depends(jwt.get_currnet_active_user),
 ):
     return UserInfo(
         username=user.username,

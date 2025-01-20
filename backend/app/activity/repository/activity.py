@@ -1,13 +1,11 @@
-"""### Module for crud operation for Activity"""
-
 from datetime import datetime
 from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.db import Activity
+from app.db import Activity
 
-from app.schemas.activity import ActivityCreate, ActivityUpdatePartial
+from app.activity.schemas.activity import ActivityCreate, ActivityUpdatePartial
 
 
 async def get_activies(session: AsyncSession) -> list[Activity]:

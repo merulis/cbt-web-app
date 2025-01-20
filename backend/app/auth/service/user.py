@@ -1,33 +1,33 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.db.crud import user as data
+from app.auth.repository import user as db
 
-from app.schemas.user import User, UserCreate, UserUpdate
+from app.auth.schemas.user import User, UserCreate, UserUpdate
 
 
 def get_all() -> list[User]:
-    return data.get_users()
+    return db.get_users()
 
 
 def get_one(
     session: AsyncSession,
     user_id: int,
 ) -> User:
-    return data.get_user(
+    return db.get_user(
         session=session,
         user_id=user_id,
     )
 
 
 def create(session: AsyncSession, user: UserCreate) -> User:
-    return data.create_user(
+    return db.create_user(
         session=session,
         user_create=user,
     )
 
 
 def modify(session: AsyncSession, user: User, user_update: UserUpdate) -> User:
-    return data.update_user(
+    return db.update_user(
         session=session,
         user_in=user,
         user_update=user,
@@ -35,7 +35,7 @@ def modify(session: AsyncSession, user: User, user_update: UserUpdate) -> User:
 
 
 def delete(session: AsyncSession, user: User) -> bool:
-    return data.delete_user(
+    return db.delete_user(
         session=session,
         user_delete=user,
     )

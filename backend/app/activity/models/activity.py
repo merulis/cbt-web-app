@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 
 from sqlalchemy.orm import Mapped
 
-from .base import Base
-from .mixins import UserRelationMixin
+from app.db.base import Base
+from app.db.mixins.user_relation import UserRelationMixin
 
 
 if TYPE_CHECKING:
