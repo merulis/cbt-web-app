@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from app.api import activity
-from app.api import user
-from app.api import auth
+from app.apps.activity import routes as activity
+from app.apps.auth.routers import routes as user
+from app.apps.auth.routers import routes as auth
 
 api_router = APIRouter()
 api_router.include_router(user.router, tags=["User"])

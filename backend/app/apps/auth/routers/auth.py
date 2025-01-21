@@ -3,10 +3,10 @@ from fastapi import (
     Depends,
 )
 
-from app.auth.service import jwt
-from app.auth import validation
+from app.apps.auth.service import jwt
+from app.apps.auth import validation
 
-from app.auth.schemas.user import (
+from app.apps.auth.schemas.user import (
     UserSchema,
     TokenInfo,
     TokenPayload,

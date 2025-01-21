@@ -4,8 +4,8 @@ from fastapi import APIRouter, Depends, status
 
 from app.db import database
 
-from app.activity.service import activity as service
-from app.activity.schemas.activity import (
+from app.apps.activity.service import activity as service
+from app.apps.activity.schemas.activity import (
     Activity,
     ActivityCreate,
     ActivityUpdatePartial,
