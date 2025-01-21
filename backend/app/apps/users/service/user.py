@@ -1,8 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.auth.repository import user as db
+from app.apps.auth.repository import user as db
 
-from app.auth.schemas.user import User, UserCreate, UserUpdate
+from app.apps.users.schemas import User, UserCreate, UserUpdate
 
 
 def get_all() -> list[User]:

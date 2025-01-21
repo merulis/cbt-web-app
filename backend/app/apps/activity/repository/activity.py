@@ -3,9 +3,8 @@ from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db import Activity
-
-from app.activity.schemas.activity import ActivityCreate, ActivityUpdatePartial
+from app.apps.activity.models import Activity
+from app.apps.activity.schemas import ActivityCreate, ActivityUpdatePartial
 
 
 async def get_activies(session: AsyncSession) -> list[Activity]:

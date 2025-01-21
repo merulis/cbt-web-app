@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.activity.repository import activity as db
-from app.activity.schemas.activity import (
+from app.apps.activity.repository import activity as db
+from app.apps.activity.schemas.activity import (
     Activity,
     ActivityCreate,
     ActivityUpdatePartial,

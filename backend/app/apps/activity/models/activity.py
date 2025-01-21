@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from sqlalchemy.orm import Mapped
 
 from app.db.base import Base
-from app.db.mixins.user_relation import UserRelationMixin
+from app.apps.users.mixins import UserRelationMixin
 
 
 if TYPE_CHECKING:

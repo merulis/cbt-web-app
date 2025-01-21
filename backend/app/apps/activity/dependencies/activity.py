@@ -4,8 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, Path, HTTPException, status
 
 from app.db import database
-from app.activity.schemas.activity import Activity
-from app.activity.service import activity as service
+from app.apps.activity.schemas import Activity
+from app.apps.activity.service import activity as service
 
 from app.db.exceptions import Missing
 

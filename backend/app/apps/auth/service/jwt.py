@@ -1,10 +1,10 @@
 from datetime import timedelta
 
-from app.auth.validation import (
+from app.apps.auth.validation import (
     validate_token_payload,
     validate_token_type,
 )
-from app.auth.fake_data import user_db as db
+from app.apps.auth.fake_data import user_db as db
 from app.core.settings import settings
 from app.core import security
 
@@ -18,7 +18,7 @@ from fastapi import (
 
 from fastapi.security import OAuth2PasswordBearer
 
-from app.auth.schemas.user import (
+from app.apps.users.schemas.user import (
     UserSchema,
     TokenPayload,
 )

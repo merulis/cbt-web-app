@@ -6,7 +6,7 @@ from fastapi import (
 from app.apps.auth.service import jwt
 from app.apps.auth import validation
 
-from app.apps.auth.schemas.user import (
+from app.apps.users.schemas import (
     UserSchema,
     TokenInfo,
     TokenPayload,
