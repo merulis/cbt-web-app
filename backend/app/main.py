@@ -34,7 +34,7 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
 )
 
-app.include_router(router=api_router, prefix=settings.API.PREFIX)
+app.include_router(router=api_router, prefix=settings.API_PREFIX)
 
 
 @retry(
