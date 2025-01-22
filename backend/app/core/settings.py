@@ -14,15 +14,13 @@ from pydantic_settings import BaseSettings
 
 BACKEND_BASE_DIR = Path(__file__).parent.parent
 
+PREFIX: str = "/api/v1"
+
 
 class RunConfig(BaseModel):
     APP: str = "main:app"
     HOST: str = "localhost"
     PORT: int = "8000"
-
-
-class Api(BaseModel):
-    PREFIX: str = "/api/v1"
 
 
 class Logger(BaseModel):
@@ -64,8 +62,14 @@ class AuthJWT(BaseModel):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
 
+class Security(BaseModel):
+    LOGIN_PATH: str = "/auth/login"
+    TOKEN_PATH: str = PREFIX + LOGIN_PATH
+
+
 class Settings(BaseSettings):
-    API: Api = Api()
+    API_PREFIX: str = PREFIX
+
     SECRETS_KEY: str = secrets.token_urlsafe(32)
 
     FRONEND_HOST: str = ""
@@ -76,6 +80,8 @@ class Settings(BaseSettings):
     LOG: Logger = Logger()
     DB: DBSettings = DBSettings()
     JWT: AuthJWT = AuthJWT()
+
+    SECURITY: Security = Security()
 
     FIRST_SUPERUSER: str = ""
     FIRST_SUPERUSER_PASSWORD: str = ""
