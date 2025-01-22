@@ -1,15 +1,5 @@
 from datetime import timedelta
 
-from app.apps.auth.validation import (
-    validate_token_payload,
-    validate_token_type,
-)
-from app.apps.auth.fake_data import user_db as db
-from app.core.settings import settings
-from app.core import security
-
-from jwt.exceptions import ExpiredSignatureError
-
 from fastapi import (
     HTTPException,
     Depends,
@@ -18,12 +8,25 @@ from fastapi import (
 
 from fastapi.security import OAuth2PasswordBearer
 
+from jwt.exceptions import ExpiredSignatureError
+
+from app.core.settings import settings
+from app.core import security
+
+from app.apps.auth.validation import (
+    validate_token_payload,
+    validate_token_type,
+)
+from app.apps.auth.fake_data import user_db as db
 from app.apps.users.schemas.user import (
     UserSchema,
     TokenPayload,
 )
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login/")
+
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl=settings.SECURITY.TOKEN_PATH,
+)
 
 
 def create_jwt(
