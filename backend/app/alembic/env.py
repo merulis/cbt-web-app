@@ -20,8 +20,8 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from app.core.db import Base  # noqa: E402
-from app.core.settings import settings  # noqa: E402, F401
+from app.infrastucture.db import Base  # noqa: E402
+from app.config import settings  # noqa: E402, F401
 
 target_metadata = Base.metadata
 
