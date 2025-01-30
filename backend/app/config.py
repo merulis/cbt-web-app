@@ -53,8 +53,6 @@ class DBSettings(BaseModel):
 
 
 class AuthJWT(BaseModel):
-    ACCESS_TYPE: str = "access"
-    REFRESH_TYPE: str = "refresh"
     ALGORITHM: str = "RS256"
     PRIVATE_KEY: Path = BACKEND_BASE_DIR / "certs" / "jwt-private.pem"
     PUBLIC_KEY: Path = BACKEND_BASE_DIR / "certs" / "jwt-public.pem"

@@ -12,7 +12,7 @@ from tenacity import (
 from fastapi import FastAPI
 
 from app.router import api_router
-from app.core.settings import settings
+from app.config import settings
 
 
 @asynccontextmanager
