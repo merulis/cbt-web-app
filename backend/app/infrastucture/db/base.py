@@ -5,8 +5,10 @@ from sqlalchemy.orm import (
     mapped_column,
 )
 
+from app.infrastucture.db.mixins.update_from_entity import UpdateMixin
 
-class Base(DeclarativeBase):
+
+class Base(DeclarativeBase, UpdateMixin):
     __abstract__ = True
 
     @declared_attr
