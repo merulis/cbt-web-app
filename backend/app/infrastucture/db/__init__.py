@@ -1,8 +1,8 @@
 __all__ = (
     "Base",
-    "DataBase",
-    "database",
+    "AsyncDataBase",
+    "async_db",
 )
 
 from .base import Base
-from .database import DataBase, database
+from .database import AsyncDataBase, async_db
