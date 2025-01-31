@@ -3,12 +3,12 @@ from datetime import datetime, timedelta, timezone
 import jwt
 import bcrypt
 
-from app.config import settings
+from app.config import config
 
 
 def _encode_expire(
     payload: dict,
-    expire_minutes: int = settings.JWT.ACCESS_TOKEN_EXPIRE_MINUTES,
+    expire_minutes: int = config.JWT.ACCESS_TOKEN_EXPIRE_MINUTES,
     expire_timedelta: timedelta | None = None,
 ):
     to_encode = payload.copy()
@@ -29,9 +29,9 @@ def _encode_expire(
 
 def encode_jwt(
     payload: dict,
-    private_key: str = settings.JWT.PRIVATE_KEY.read_text(),
-    algorithm: str = settings.JWT.ALGORITHM,
-    expire_minutes: int = settings.JWT.ACCESS_TOKEN_EXPIRE_MINUTES,
+    private_key: str = config.JWT.PRIVATE_KEY.read_text(),
+    algorithm: str = config.JWT.ALGORITHM,
+    expire_minutes: int = config.JWT.ACCESS_TOKEN_EXPIRE_MINUTES,
     expire_timedelta: timedelta | None = None,
 ):
     payload_with_expire = _encode_expire(
@@ -51,8 +51,8 @@ def encode_jwt(
 
 def decode_jwt(
     token: str | bytes,
-    public_key: str = settings.JWT.PUBLIC_KEY.read_text(),
-    algorithms: list[str] = [settings.JWT.ALGORITHM],
+    public_key: str = config.JWT.PUBLIC_KEY.read_text(),
+    algorithms: list[str] = [config.JWT.ALGORITHM],
 ):
     decoded = jwt.decode(
         jwt=token,

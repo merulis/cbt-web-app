@@ -6,7 +6,7 @@ from dataclasses import (
 from enum import Enum
 
 from datetime import datetime, timedelta
-from app.config import settings
+from app.config import config
 
 
 class TokenType(str, Enum):
@@ -29,7 +29,7 @@ class AccessJWTPayload(BaseJWTPayload):
     jtt: TokenType = TokenType.ACCESS
     exp: datetime = field(
         default_factory=lambda: datetime.now()
-        + timedelta(minutes=settings.JWT.ACCESS_TOKEN_EXPIRE_MINUTES),
+        + timedelta(minutes=config.JWT.ACCESS_TOKEN_EXPIRE_MINUTES),
     )
 
 
@@ -38,5 +38,5 @@ class RefreshJWTPayload(BaseJWTPayload):
     jtt: TokenType = TokenType.REFRESH
     exp: datetime = field(
         default_factory=lambda: datetime.now()
-        + timedelta(days=settings.JWT.REFRESH_TOKEN_EXPIRE_DAYS),
+        + timedelta(days=config.JWT.REFRESH_TOKEN_EXPIRE_DAYS),
     )
