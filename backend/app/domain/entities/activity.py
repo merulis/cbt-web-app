@@ -1,12 +1,11 @@
 from dataclasses import dataclass
 
-from uuid import UUID
 from datetime import datetime
 
 
 @dataclass
 class Activity:
-    id: UUID
+    id: int
     title: str
     start_time: datetime
     end_time: datetime

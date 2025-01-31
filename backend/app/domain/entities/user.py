@@ -1,12 +1,11 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 
-from uuid import UUID
 from datetime import datetime
 
 
 @dataclass
-class User:
-    id: UUID
+class UserEntity:
+    id: int
     email: str
     hashed_password: str
     is_active: bool = True
@@ -18,3 +17,6 @@ class User:
 
     def activate(self):
         self.is_active = True
+
+    def to_dict(self):
+        return asdict(self)
