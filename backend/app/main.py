@@ -12,7 +12,7 @@ from tenacity import (
 from fastapi import FastAPI
 
 from app.router import api_router
-from app.config import settings
+from app.config import config
 
 
 @asynccontextmanager
@@ -24,22 +24,22 @@ async def lifespan(app: FastAPI):
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
-    filename=settings.LOG.LOG_PATH / "log_backend.log",
-    format=settings.LOG.FORMAT,
+    filename=config.LOG.LOG_PATH / "log_backend.log",
+    format=config.LOG.FORMAT,
     level=logging.INFO,
 )
 
 app = FastAPI(
     lifespan=lifespan,
-    title=settings.PROJECT_NAME,
+    title=config.PROJECT_NAME,
 )
 
-app.include_router(router=api_router, prefix=settings.API_PREFIX)
+app.include_router(router=api_router, prefix=config.API_PREFIX)
 
 
 @retry(
-    stop=stop_after_attempt(settings.LOG.RETRY_MAX_TRIES),
-    wait=wait_fixed(settings.LOG.RETRY_WAIT_SEC),
+    stop=stop_after_attempt(config.LOG.RETRY_MAX_TRIES),
+    wait=wait_fixed(config.LOG.RETRY_WAIT_SEC),
     before=before_log(logger, logging.INFO),
     after=after_log(logger, logging.WARN),
 )
@@ -47,7 +47,7 @@ def main():
     import uvicorn
 
     logger.info("Uvicorn run app")
-    uvicorn.run(app=settings.RUN.APP, reload=True)
+    uvicorn.run(app=config.RUN.APP, reload=True)
     logger.info("Uvicorn shutdown app")
 
 
