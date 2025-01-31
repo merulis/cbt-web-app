@@ -1,6 +1,6 @@
 import uuid
 
-from app.domain.entities.user import User
+from app.domain.entities.user import UserEntity
 from app.domain.repositories.user import IUserRepository
 from app.application.interfaces.auth import IPasswordHasher
 
@@ -10,14 +10,14 @@ class RegisterUserCase:
         self.repo = user_repo
         self.hasher = hasher
 
-    def execute(self, email: str, plain_password: str) -> User:
+    def execute(self, email: str, plain_password: str) -> UserEntity:
         existing_user = self.repo.get_by_email(email=email)
         if existing_user is not None:
             raise ValueError("User with given email already exists")
 
         hashed_pw = self.hasher.hash_password(plain_password=plain_password)
 
-        user = User(
+        user = UserEntity(
             id=uuid.uuid4(),
             email=email,
             hashed_password=hashed_pw,
