@@ -1,12 +1,12 @@
 import pytest
 from unittest.mock import Mock
 
-from app.domain.entities.user import User
+from app.domain.entities.user import UserEntity
 from app.application.use_cases.user_register import RegisterUserCase
 
 
 def test_register_user_success():
-    def save_side_effect(user: User):
+    def save_side_effect(user: UserEntity):
         return user
 
     mock_repo = Mock()
@@ -34,7 +34,7 @@ def test_register_user_success():
 
     mock_repo.save.assert_called_once()
 
-    assert isinstance(result, User)
+    assert isinstance(result, UserEntity)
     assert result.email == "test@example.com"
     assert result.hashed_password == "hashed_pass"
 
@@ -43,7 +43,7 @@ def test_register_user_already_exists():
     mock_repo = Mock()
     mock_hasher = Mock()
 
-    mock_repo.get_by_email.return_value = User(
+    mock_repo.get_by_email.return_value = UserEntity(
         id=None, email="existing@example.com", hashed_password="somehash"
     )
 

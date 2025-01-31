@@ -2,12 +2,12 @@ import pytest
 
 import uuid
 
-from app.domain.entities.user import User
+from app.domain.entities.user import UserEntity
 
 
 @pytest.fixture
 def user():
-    return User(
+    return UserEntity(
         id=uuid.uuid4(),
         email="example@example.com",
         hashed_password="random",
