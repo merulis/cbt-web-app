@@ -31,6 +31,7 @@ class Logger(BaseModel):
 
 
 class DBSettings(BaseModel):
+    SQLITE_URL: str = "sqlite:///local.db"
     POSTGRES_DRIVER: str = "postgresql+asyncpg"
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "postgres"
@@ -85,4 +86,4 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD: str = ""
 
 
-settings = Settings()
+config = Settings()
