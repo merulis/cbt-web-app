@@ -1,15 +1,17 @@
-from asyncio import current_task
+from sqlalchemy import create_engine
+from sqlalchemy.orm import (
+    sessionmaker,
+)
 
 from sqlalchemy.ext.asyncio import (
     create_async_engine,
     async_sessionmaker,
-    async_scoped_session,
 )
 
-from app.config import settings
+from app.config import config
 
 
-class DataBase:
+class AsyncDataBase:
     def __init__(self, url: str, echo: bool = False):
         self.engine = create_async_engine(url=url, echo=echo)
         self.session_factory = async_sessionmaker(
@@ -19,29 +21,35 @@ class DataBase:
             expire_on_commit=False,
         )
 
-    def get_scoped_session(self):
-        session = async_scoped_session(
-            session_factory=self.session_factory,
-            scopefunc=current_task,
-        )
-        return session
-
-    async def session_dependency(self):
+    async def get_session(self):
         """return new sqlalchemy.AsyncSession"""
         async with self.session_factory() as session:
             yield session
             await session.close()
 
-    async def scoped_session_dependency(self):
-        """
-        return scoped sqlalchemy.AsyncSession
-        """
-        session = self.get_scoped_session()
-        yield session
-        await session.close()
+
+class SyncDataBase:
+    def __init__(self, url: str, echo: bool = False):
+        self.engine = create_engine(url=url, echo=echo)
+        self.session_factory = sessionmaker(
+            bind=self.engine,
+            autoflush=False,
+            autocommit=False,
+            expire_on_commit=False,
+        )
+
+    def get_session(self):
+        """return new sqlalchemy.Session"""
+        with self.session_factory() as session:
+            yield session
 
 
-database = DataBase(
-    str(settings.DB.SQLALCHEMY_DATABASE_URL),
-    settings.DB.ECHO,
+sync_db = SyncDataBase(
+    str(config.DB.SQLITE_URL),
+    config.DB.ECHO,
+)
+
+async_db = AsyncDataBase(
+    str(config.DB.SQLALCHEMY_DATABASE_URL),
+    config.DB.ECHO,
 )
