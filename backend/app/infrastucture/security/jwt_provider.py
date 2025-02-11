@@ -13,10 +13,10 @@ class TokenProvider(ITokenProvider):
         private_key: str = config.JWT.PRIVATE_KEY.read_text(),
         algorithm: str = config.JWT.ALGORITHM,
     ):
-        self.payload_factory = payload_factory
-        self.public_key = public_key
-        self.private_key = private_key
-        self.algorithm = algorithm
+        self._payload_factory = payload_factory
+        self._public_key = public_key
+        self._private_key = private_key
+        self._algorithm = algorithm
 
     def _encode_token(
         self,
@@ -24,18 +24,18 @@ class TokenProvider(ITokenProvider):
     ) -> str:
         encoded = jwt.encode(
             payload=payload,
-            key=self.private_key,
-            algorithm=self.algorithm,
+            key=self._private_key,
+            algorithm=self._algorithm,
         )
         return encoded
 
     def generate_access_token(self, data: dict) -> str:
-        access_payload = self.payload_factory.create_access_payload(**data)
+        access_payload = self._payload_factory.create_access_payload(**data)
         token = self._encode_token(payload=access_payload.to_dict())
         return token
 
     def generate_refresh_token(self, data: dict) -> str:
-        refresh_payload = self.payload_factory.create_refresh_payload(
+        refresh_payload = self._payload_factory.create_refresh_payload(
             **data,
         )
         token = self._encode_token(payload=refresh_payload.to_dict())
@@ -47,7 +47,7 @@ class TokenProvider(ITokenProvider):
     ) -> dict:
         decoded = jwt.decode(
             jwt=token,
-            key=self.public_key,
-            algorithms=[self.algorithm],
+            key=self._public_key,
+            algorithms=[self._algorithm],
         )
         return decoded
