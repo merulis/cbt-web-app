@@ -1,3 +1,5 @@
+from typing import Protocol
+
 from dataclasses import (
     dataclass,
     asdict,
@@ -12,6 +14,11 @@ from app.config import config
 class TokenType(str, Enum):
     ACCESS = "access"
     REFRESH = "refresh"
+
+
+class JWTPayloadSchema(Protocol):
+    def to_dict(self) -> dict:
+        pass
 
 
 @dataclass
