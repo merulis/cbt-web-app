@@ -5,7 +5,7 @@ from app.application.interfaces.auth import ITokenProvider
 from app.application.dto.jwt_payload import PayloadDTO
 
 
-class LoginUserCase:
+class TokenGenCase:
     def __init__(
         self,
         user_repo: IUserRepository,
@@ -16,8 +16,12 @@ class LoginUserCase:
         self.hasher = hasher
         self.token_provider = token_provider
 
-    def execute(self, email: str, plain_password: str) -> str:
+    def execute(self, email: str, plain_password: str) -> tuple[str, str]:
         """
+        Get user by email, verify password and is_active
+        Generate access and refresh tokens if user valid
+
+        ---
         return: tuple(access_token, refresh_token: str)
         """
         user = self.repo.get_by_email(email=email)
