@@ -40,8 +40,7 @@ class SyncDataBase:
 
     def get_session(self):
         """return new sqlalchemy.Session"""
-        with self.session_factory() as session:
-            yield session
+        return self.session_factory()
 
 
 sync_db = SyncDataBase(
