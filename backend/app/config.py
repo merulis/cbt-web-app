@@ -12,7 +12,7 @@ from pydantic_core import MultiHostUrl
 from pydantic_settings import BaseSettings
 
 
-BACKEND_BASE_DIR = Path(__file__).parent.parent
+BACKEND_BASE_DIR = Path(__file__).parent
 
 PREFIX: str = "/api/v1"
 
