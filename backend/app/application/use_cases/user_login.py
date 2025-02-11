@@ -36,7 +36,7 @@ class LoginUserCase:
         payload = PayloadDTO(sub=str(user.id), role=user.role)
 
         access_token = self.token_provider.generate_access_token(
-            payload=payload.to_dict(),
+            data=payload.to_dict(),
         )
 
         refresh_token = self.token_provider.generate_refresh_token(
