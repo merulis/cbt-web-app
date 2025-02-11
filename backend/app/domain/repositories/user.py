@@ -1,17 +1,17 @@
 from abc import ABC, abstractmethod
 
-import uuid
+from app.application.dto import UserDTO
 
 from app.domain.entities.user import UserEntity
 
 
 class IUserRepository(ABC):
     @abstractmethod
-    def save(self, user: UserEntity) -> UserEntity:
+    def save(self, user: UserDTO) -> UserEntity:
         pass
 
     @abstractmethod
-    def get_by_uid(self, uid: uuid.UUID) -> UserEntity | None:
+    def get_by_uid(self, uid: int) -> UserEntity | None:
         pass
 
     @abstractmethod
@@ -23,5 +23,5 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def delete(self, uid: uuid.UUID) -> None:
+    def delete(self, uid: int) -> None:
         pass
