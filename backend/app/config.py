@@ -31,7 +31,9 @@ class Logger(BaseModel):
 
 
 class DBSettings(BaseModel):
-    SQLITE_URL: str = "sqlite:///local.db"
+    SQLITE_URL: str = (
+        "sqlite:////home/flex/projects/cbt-web-app/backend/app/infrastucture/local.db"
+    )
     POSTGRES_DRIVER: str = "postgresql+asyncpg"
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "postgres"
