@@ -3,7 +3,7 @@ import pytest
 from app.infrastucture.security import JWTPayloadFactory
 
 
-class TestAccessPayload:
+class MockAccessPayload:
     def __init__(self, sub):
         self.sub = sub
         self.type = "access"
@@ -12,7 +12,7 @@ class TestAccessPayload:
         return {"sub": self.sub, "type": self.type}
 
 
-class TestRefreshPayload:
+class MockRefreshPayload:
     def __init__(self, sub):
         self.sub = sub
         self.type = "refresh"
@@ -23,7 +23,7 @@ class TestRefreshPayload:
 
 @pytest.fixture
 def factory():
-    factory = JWTPayloadFactory(TestAccessPayload, TestRefreshPayload)
+    factory = JWTPayloadFactory(MockAccessPayload, MockRefreshPayload)
     return factory
 
 
