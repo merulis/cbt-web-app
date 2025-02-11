@@ -5,7 +5,16 @@ from app.domain.entities.user import UserEntity
 from app.application.use_cases.user_register import RegisterUserCase
 
 
-def test_register_user_success():
+@pytest.fixture
+def example_user():
+    return {
+        "email": "test@test.com",
+        "username": "test",
+        "plain_password": "pw",
+    }
+
+
+def test_register_user_success(example_user):
     def save_side_effect(user: UserEntity):
         return user
 
@@ -23,19 +32,16 @@ def test_register_user_success():
         hasher=mock_hasher,
     )
 
-    result = register_user_case.execute(
-        email="test@example.com", plain_password="plain_password"
-    )
+    result = register_user_case.execute(**example_user)
 
-    mock_repo.get_by_email.assert_called_once_with(email="test@example.com")
+    mock_repo.get_by_email.assert_called_once_with(email="test@test.com")
     mock_hasher.hash_password.assert_called_once_with(
-        plain_password="plain_password",
+        plain_password="pw",
     )
 
     mock_repo.save.assert_called_once()
 
-    assert isinstance(result, UserEntity)
-    assert result.email == "test@example.com"
+    assert result.email == "test@test.com"
     assert result.hashed_password == "hashed_pass"
 
 
@@ -44,7 +50,10 @@ def test_register_user_already_exists():
     mock_hasher = Mock()
 
     mock_repo.get_by_email.return_value = UserEntity(
-        id=None, email="existing@example.com", hashed_password="somehash"
+        id=None,
+        username="test",
+        email="existing@example.com",
+        hashed_password="somehash",
     )
 
     register_user_case = RegisterUserCase(
@@ -53,7 +62,11 @@ def test_register_user_already_exists():
     )
 
     with pytest.raises(ValueError) as exc:
-        register_user_case.execute("existing@example.com", "plain_password")
+        register_user_case.execute(
+            "test",
+            "existing@example.com",
+            "plain_password",
+        )
 
     assert "already exists" in str(exc.value)
 
