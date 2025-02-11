@@ -65,9 +65,10 @@ class UserRepositoryImpl(IUserRepository):
     def _to_entity(self, user_db: UserModel) -> UserEntity:
         return UserEntity(
             id=user_db.id,
+            username=user_db.username,
             email=user_db.email,
             hashed_password=user_db.hashed_password,
             is_active=user_db.is_active,
-            created_at=user_db.create_at,
+            created_at=user_db.created_at,
             role=user_db.role,
         )
