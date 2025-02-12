@@ -55,3 +55,38 @@ def test_save(repo, example_user):
 
     assert user_db.hashed_password == example_user.hashed_password
     assert user_db.email == example_user.email
+
+
+def test_get_by_uid(repo, example_user):
+    saved = repo.save(example_user)
+    retrieved = repo.get_by_uid(saved.id)
+    assert retrieved is not None
+    assert retrieved.email == example_user.email
+
+
+def test_get_by_email(repo, example_user):
+    saved = repo.save(example_user)
+    retrieved = repo.get_by_email(example_user.email)
+    assert retrieved is not None
+    assert retrieved.id == saved.id
+
+
+def test_update_user(repo, example_user):
+    saved = repo.save(example_user)
+    saved.email = "new@example.com"
+    saved.hashed_password = "new_hashed_pass"
+    updated = repo.update(saved)
+    assert updated.email == "new@example.com"
+    assert updated.hashed_password == "new_hashed_pass"
+
+
+def test_delete_user(repo, example_user):
+    saved = repo.save(example_user)
+    repo.delete(saved.id)
+    retrieved = repo.get_by_uid(saved.id)
+    assert retrieved is None
+
+
+def test_delete_non_existing(repo):
+    with pytest.raises(ValueError):
+        repo.delete(999)
